@@ -1,16 +1,24 @@
 import multer from 'multer';
 import path from 'path';
 import fs from 'fs';
+import os from 'os';
 import { fileURLToPath } from 'url';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const photosDir = path.join(__dirname, '..', 'uploads', 'photos');
-const videosDir = path.join(__dirname, '..', 'uploads', 'videos');
+const uploadBase = process.env.VERCEL
+  ? path.join(os.tmpdir(), 'gs-modern-uploads')
+  : path.join(__dirname, '..', 'uploads');
+const photosDir = path.join(uploadBase, 'photos');
+const videosDir = path.join(uploadBase, 'videos');
 
-if (!fs.existsSync(photosDir)) fs.mkdirSync(photosDir, { recursive: true });
-if (!fs.existsSync(videosDir)) fs.mkdirSync(videosDir, { recursive: true });
+try {
+  if (!fs.existsSync(photosDir)) fs.mkdirSync(photosDir, { recursive: true });
+  if (!fs.existsSync(videosDir)) fs.mkdirSync(videosDir, { recursive: true });
+} catch (err) {
+  console.warn('Could not initialize upload directories:', err.message);
+}
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {

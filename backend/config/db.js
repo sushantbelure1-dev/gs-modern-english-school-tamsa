@@ -1,6 +1,7 @@
 import mysql from 'mysql2/promise';
 import dotenv from 'dotenv';
 import fs from 'fs';
+import os from 'os';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
@@ -8,12 +9,18 @@ dotenv.config();
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const fallbackDir = path.join(__dirname, '..', 'data');
+const fallbackDir = process.env.VERCEL
+  ? path.join(os.tmpdir(), 'gs-modern-data')
+  : path.join(__dirname, '..', 'data');
 const fallbackFile = path.join(fallbackDir, 'db-fallback.json');
 
 // Ensure fallback dir exists
-if (!fs.existsSync(fallbackDir)) {
-  fs.mkdirSync(fallbackDir, { recursive: true });
+try {
+  if (!fs.existsSync(fallbackDir)) {
+    fs.mkdirSync(fallbackDir, { recursive: true });
+  }
+} catch (err) {
+  console.warn('Could not create fallback dir:', err.message);
 }
 
 let isUsingMySQL = false;

@@ -36,6 +36,20 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.use('/school-photos', express.static(path.join(__dirname, 'uploads', 'photos')));
 app.use('/school-videos', express.static(path.join(__dirname, 'uploads', 'videos')));
 
+// Ensure DB is initialized once (supports both local & Vercel serverless)
+let dbInitPromise = null;
+const ensureDbInitialized = () => {
+  if (!dbInitPromise) {
+    dbInitPromise = initDB();
+  }
+  return dbInitPromise;
+};
+
+app.use(async (req, res, next) => {
+  await ensureDbInitialized();
+  next();
+});
+
 // API Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/classes', classRoutes);
@@ -69,13 +83,17 @@ app.use((err, req, res, next) => {
   });
 });
 
-// Start Server & initialize DB
-const startServer = async () => {
-  await initDB();
-  app.listen(PORT, () => {
-    console.log(`🚀 G S Modern School Backend running at: http://localhost:${PORT}`);
-    console.log(`📡 Health Check: http://localhost:${PORT}/api/health`);
-  });
-};
+// Start Server & initialize DB (local mode)
+if (!process.env.VERCEL) {
+  const startServer = async () => {
+    await ensureDbInitialized();
+    app.listen(PORT, () => {
+      console.log(`🚀 G S Modern School Backend running at: http://localhost:${PORT}`);
+      console.log(`📡 Health Check: http://localhost:${PORT}/api/health`);
+    });
+  };
 
-startServer();
+  startServer();
+}
+
+export default app;
