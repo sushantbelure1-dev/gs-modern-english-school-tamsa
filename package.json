@@ -1,0 +1,11 @@
+{
+  "name": "gs-modern-english-school-tamsa",
+  "version": "1.0.0",
+  "description": "Complete School Website for G S Modern English School Tamsa",
+  "private": true,
+  "scripts": {
+    "start:backend": "cd backend && npm start",
+    "start:frontend": "cd frontend && npm run dev",
+    "install:all": "cd backend && npm install && cd ../frontend && npm install"
+  }
+}

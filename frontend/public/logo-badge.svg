@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
+  <circle cx="50" cy="50" r="46" fill="#3B82F6" stroke="#F59E0B" stroke-width="5" />
+  <circle cx="50" cy="50" r="40" fill="#FFFFFF" />
+  <!-- Sun Rays & Book -->
+  <path d="M50 20 L50 28 M30 30 L36 36 M70 30 L64 36" stroke="#F59E0B" stroke-width="3" stroke-linecap="round" />
+  <circle cx="50" cy="38" r="9" fill="#F59E0B" />
+  <!-- Open Book -->
+  <path d="M26 62 Q50 56 50 72 Q50 56 74 62 L74 50 Q50 44 50 60 Q50 44 26 50 Z" fill="#10B981" />
+  <path d="M50 60 L50 72" stroke="#047857" stroke-width="2" />
+  <!-- Seedling Leaves -->
+  <path d="M50 44 Q42 36 38 42 Q40 48 50 46" fill="#10B981" />
+  <path d="M50 44 Q58 36 62 42 Q60 48 50 46" fill="#34D399" />
+  <!-- Text ring -->
+  <text x="50" y="85" text-anchor="middle" font-family="'Outfit', sans-serif" font-weight="800" font-size="8.5" fill="#1E3A8A">G S MODERN</text>
+  <text x="50" y="93" text-anchor="middle" font-family="'Outfit', sans-serif" font-weight="700" font-size="6.5" fill="#EF4444">TAMSA</text>
+</svg>
